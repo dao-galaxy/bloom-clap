@@ -12,60 +12,36 @@ use tiny_keccak::{Keccak, Hasher};
 pub fn eth_tx_processor(opt_match : Option<&ArgMatches>) {
     println!("##eth-tx##");
     if let Some(matches) = opt_match {
-        //println!("{}", matches.value_of("to").unwrap());
-
         let to = hex::decode(matches.value_of("to").unwrap()).unwrap();
         let mut bee : [u8; 20] = Default::default();
         bee.copy_from_slice(to.as_slice());
         let to = H160::from(bee);
-        println!("{:x}", to);
 
-        //let priv_key = hex::decode(matches.value_of("to").unwrap()).unwrap();
         let mut key: [u8; 32] = Default::default();
         key.copy_from_slice(&hex::decode(matches.value_of("private-key").unwrap()).unwrap());
         let private_key = H256::from(key);
-        println!("{:x}", to);
 
-        let nonce : U256 = matches.value_of("nonce").unwrap().parse().unwrap();
-        let value : U256 = matches.value_of("value").unwrap().parse().unwrap();
-        let gas : U256 = matches.value_of("gas").unwrap().parse().unwrap();
-        let gas_price : U256 = matches.value_of("gas-price").unwrap().parse().unwrap();
-        let data  = hex::decode(matches.value_of("data").unwrap()).unwrap();
-        let chain_id : u32 = matches.value_of("chain-id").unwrap().parse().unwrap();
-        println!("{:x}", to);
+        let data  = hex::decode(matches.value_of("data").unwrap_or("")).unwrap();
+        let value : u128 = matches.value_of("value").unwrap_or("0").parse().unwrap();
+        let gas_price : u128 = matches.value_of("gas-price").unwrap_or("1").parse().unwrap();
 
-        let tx = RawTransaction { nonce, to : Some(to), value, gas_price, gas, data};
-        let raw_rlp_bytes = tx.sign(&private_key, &chain_id);
+        // !!! Using U256 directerly is OK, but the argument will be treated as a hex-string (not a decimal-string) in parse().
+        // let nonce : U256 = matches.value_of("nonce").unwrap().parse().unwrap(); // !!! nonce be parsed as a hex-string.
+        let nonce : u128 = matches.value_of("nonce").unwrap().parse().unwrap(); // !!! nonce be parsed as a decimal-string.
+        let gas : u128 = matches.value_of("gas").unwrap().parse().unwrap();
+        let chain_id : u32 = matches.value_of("chain-id").unwrap_or("1").parse().unwrap();
+
+        let raw_tx = RawTransaction {
+            nonce : U256::from(nonce),
+            to : Some(to),
+            value : U256::from(value),
+            gas_price : U256::from(gas_price),
+            gas : U256::from(gas),
+            data : data
+        };
+        let raw_rlp_bytes = raw_tx.sign(&private_key, &chain_id);
         println!("{}", hex::encode(raw_rlp_bytes));
     }
-
-/*
-    // 1 mainnet, 3 ropsten
-    const ETH_CHAIN_ID: u32 = 3;
-
-    let tx = RawTransaction {
-        nonce: U256::from(0),
-        to: Some(H160::zero()),
-        value: U256::zero(),
-        gas_price: U256::from(10000),
-        gas: U256::from(21240),
-        data: hex::decode(
-            "7f7465737432000000000000000000000000000000000000000000000000000000600057"
-        ).unwrap(),
-    };
-
-    let mut data: [u8; 32] = Default::default();
-    data.copy_from_slice(&hex::decode("2a3526dd05ad2ebba87673f711ef8c336115254ef8fcd38c4d8166db9a8120e4").unwrap());
-    let private_key = H256(data);
-    let raw_rlp_bytes = tx.sign(&private_key, &ETH_CHAIN_ID);
-
-    let result = "f885808227108252f894000000000000000000000000000000000000000080a\
-    47f746573743200000000000000000000000000000000000000000000000000\
-    00006000572aa0b4e0309bc4953b1ca0c7eb7c0d15cc812eb4417cbd759aa09\
-    3d38cb72851a14ca036e4ee3f3dbb25d6f7b8bd4dac0b4b5c717708d20ae6ff\
-    08b6f71cbf0b9ad2f4";
-    assert_eq!(result, hex::encode(raw_rlp_bytes));
-*/
 }
 
 
@@ -211,6 +187,39 @@ mod test {
         for (tx, signed) in txs.into_iter() {
             assert_eq!(signed.signed, tx.sign(&signed.private_key, &chain_id));
         }
+    }
+
+    #[test]
+    fn test_signs_transaction_ropsten2() {
+        use primitive_types::{H160, H256, U256};
+        use super::RawTransaction;
+        // 1 mainnet, 3 ropsten
+        const ETH_CHAIN_ID: u32 = 3;
+
+        let tx = RawTransaction {
+            nonce: U256::from(0),
+            to: Some(H160::zero()),
+            value: U256::zero(),
+            gas_price: U256::from(10000),
+            gas: U256::from(21240),
+            data: hex::decode(
+                "7f7465737432000000000000000000000000000000000000000000000000000000600057"
+            ).unwrap(),
+        };
+
+        let mut data: [u8; 32] = Default::default();
+        data.copy_from_slice(&hex::decode("2a3526dd05ad2ebba87673f711ef8c336115254ef8fcd38c4d8166db9a8120e4").unwrap());
+        let private_key = H256(data);
+        let raw_rlp_bytes = tx.sign(&private_key, &ETH_CHAIN_ID);
+
+        let result = "f885808227108252f894000000000000000000000000000000000000000080a\
+                            47f746573743200000000000000000000000000000000000000000000000000\
+                            00006000572aa0b4e0309bc4953b1ca0c7eb7c0d15cc812eb4417cbd759aa09\
+                            3d38cb72851a14ca036e4ee3f3dbb25d6f7b8bd4dac0b4b5c717708d20ae6ff\
+                            08b6f71cbf0b9ad2f4";
+        println!("{}", result);
+        assert_eq!(result, hex::encode(raw_rlp_bytes));
+
     }
 
 }

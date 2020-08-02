@@ -1,0 +1,44 @@
+[package]
+name = "bloom-clap"
+version = "0.1.0"
+authors = ["lvqinghao <lvqinghao@163.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+clap = { version = "3.0.0-beta.1", features = ["yaml"] }
+##clap = "2.33.0"
+##clap = "3.0.0-beta.1"
+
+ed25519-dalek = { version = "1.0.0-pre.3", default-features = false, features = ["u64_backend", "alloc"] }
+schnorrkel = { version = "0.9.1", features = ["preaudit_deprecated", "u64_backend"], default-features = false }
+twox-hash = { version = "1.5.0", default-features = false }
+## libsecp256k1 = { version = "0.3.2", default-features = false, features = ["hmac"] }
+merlin = { version = "2.0", default-features = false }
+
+sha3 = "0.9.1"
+sha2 = { version = "0.8.0", default-features = false }
+tiny-keccak = { version = "2.0.1", features = ["keccak"] }
+blake2-rfc = { version = "0.2.18", default-features = false }
+
+primitive-types = { version = "0.7.0", default-features = false, features = ["codec"] }
+ethereum-types = "0.9.0"
+
+hex = { version = "0.4", default-features = false }
+hex-literal = "0.2.1"
+hex_fmt = "0.3.0"
+rlp = "0.4"
+log = "0.4"
+env_logger = "0.7"
+
+## ethereum-tx-sign = "3.0.3"
+
+serde = "1.0"
+serde_derive = "1.0"
+serde_json = "1.0"
+secp256k1 = {version = "0.17", features = ["recovery"] }
+## libsecp256k1 = { version = "0.3.2", default-features = false, features = ["hmac"] }
+num-traits = "0.2"
+
+

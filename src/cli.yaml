@@ -1,0 +1,76 @@
+name: bloom-clap
+version: "0.1.0"
+author: Buffalo Lv <lvqinghao@163.com>
+about: Does awesome things of blockchain
+args:
+  - config:
+      short: c
+      long: config
+      value_name: FILE
+      about: Sets a custom config file
+      takes_value: true
+  - verbose:
+      short: v
+      multiple: true
+      about: Sets the lecvel of verbosity
+      takes_value: true
+subcommands:
+  - hash:
+      about: Prints all hash functions
+  - keccak256:
+      about: Executes keccak256 function
+      args:
+        - hex:
+            about: Input of keccak256 function
+            required: true
+            index: 1
+  - sha3:
+      about: Executes sha3 function
+      args:
+        - hex:
+            about: Input of sha3 function
+            required: true
+            index: 1
+  - sha256:
+      about: Executes sha256 function
+      args:
+        - hex:
+            long: hex
+            about: Input of sha256 function
+            takes_value: true
+  - eth-tx:
+      about: Generates ethereum transaction
+      args:
+        - to:
+            about: Destionation address of the transaction
+            long: to
+            takes_value: true
+        - nonce:
+            about: Nonce of the sender account
+            long: nonce
+            takes_value: true
+        - value:
+            about: Input of eth-tx function
+            long: value
+            takes_value: true
+        - gas:
+            about: Input of eth-tx function
+            long: gas
+            takes_value: true
+        - gas-price:
+            about: Input of eth-tx function
+            long: gas-price
+            takes_value: true
+        - data:
+            about: Input of eth-tx function
+            long: data
+            takes_value: true
+        - chain-id:
+            about: Input of eth-tx function
+            long: chain-id
+            takes_value: true
+        - private-key:
+            about: Input of eth-tx function
+            long: private-key
+            takes_value: true
+

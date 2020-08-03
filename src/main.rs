@@ -11,7 +11,7 @@ use subcmd::{keccak_processor, hash_processor, sha3_processor, eth_tx_processor}
 
 fn main() {
     // The YAML file is found relative to the current file, similar to how modules are found
-    let yaml = load_yaml!("cli.yaml");  // src/cli.yaml
+    let yaml = load_yaml!("clap.yaml");  // src/clap.yaml
     let matches = App::from(yaml).get_matches();
     // println!("{:#?}", matches);
 
@@ -21,6 +21,7 @@ fn main() {
         "keccak256" => keccak_processor(opt_match),
         "sha3" => sha3_processor(opt_match),
         "eth-tx" => eth_tx_processor(opt_match),
+        // "parse" => parse_processor(opt_match),
         _ => {}
     }
     // more program logic goes here...

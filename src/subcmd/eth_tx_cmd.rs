@@ -12,33 +12,42 @@ use tiny_keccak::{Keccak, Hasher};
 pub fn eth_tx_processor(opt_match : Option<&ArgMatches>) {
     println!("##eth-tx##");
     if let Some(matches) = opt_match {
-        let to = hex::decode(matches.value_of("to").unwrap()).unwrap();
-        let mut bee : [u8; 20] = Default::default();
-        bee.copy_from_slice(to.as_slice());
-        let to = H160::from(bee);
+        let mut to : Option<H160> = None;
+        if matches.occurrences_of("to") > 0 {
+            let foo = hex::decode(matches.value_of("to").unwrap()).unwrap();
+            let mut bee : [u8; 20] = Default::default();
+            bee.copy_from_slice(foo.as_slice());
+            to = Some(H160::from(bee));
+        }
 
         let mut key: [u8; 32] = Default::default();
         key.copy_from_slice(&hex::decode(matches.value_of("private-key").unwrap()).unwrap());
         let private_key = H256::from(key);
 
-        let data  = hex::decode(matches.value_of("data").unwrap_or("")).unwrap();
-        let value : u128 = matches.value_of("value").unwrap_or("0").parse().unwrap();
-        let gas_price : u128 = matches.value_of("gas-price").unwrap_or("1").parse().unwrap();
-
         // !!! Using U256 directerly is OK, but the argument will be treated as a hex-string (not a decimal-string) in parse().
         // let nonce : U256 = matches.value_of("nonce").unwrap().parse().unwrap(); // !!! nonce be parsed as a hex-string.
         let nonce : u128 = matches.value_of("nonce").unwrap().parse().unwrap(); // !!! nonce be parsed as a decimal-string.
         let gas : u128 = matches.value_of("gas").unwrap().parse().unwrap();
-        let chain_id : u32 = matches.value_of("chain-id").unwrap_or("1").parse().unwrap();
+        let gas_price : u128 = matches.value_of("gas-price").unwrap_or("1").parse().unwrap();
+        let value : u128 = matches.value_of("value").unwrap_or("0").parse().unwrap();
+        let chain_id : u64 = matches.value_of("chain-id").unwrap_or("1").parse().unwrap();
+        let data  = hex::decode(matches.value_of("data").unwrap_or("")).unwrap();
 
         let raw_tx = RawTransaction {
             nonce : U256::from(nonce),
-            to : Some(to),
+            to : to,
             value : U256::from(value),
             gas_price : U256::from(gas_price),
             gas : U256::from(gas),
             data : data
         };
+
+        let j = serde_json::to_string_pretty(&raw_tx).unwrap();
+        println!("{}", j);
+        // if let Ok(j) = serde_json::to_string_pretty(&raw_tx) {
+        //     println!("{:?}", j);
+        // }
+
         let raw_rlp_bytes = raw_tx.sign(&private_key, &chain_id);
         println!("{}", hex::encode(raw_rlp_bytes));
     }

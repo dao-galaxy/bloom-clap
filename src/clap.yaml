@@ -2,6 +2,8 @@ name: bloom-clap
 version: "0.1.0"
 author: Buffalo Lv <lvqinghao@163.com>
 about: Does awesome things of blockchain
+settings:
+  - ArgRequiredElseHelp
 args:
   - config:
       short: c
@@ -47,6 +49,7 @@ subcommands:
             takes_value: true
         - nonce:
             about: Nonce of the sender account
+            required: true
             long: nonce
             takes_value: true
         - value:
@@ -55,6 +58,7 @@ subcommands:
             takes_value: true
         - gas:
             about: Input of eth-tx function
+            required: true
             long: gas
             takes_value: true
         - gas-price:
@@ -71,6 +75,21 @@ subcommands:
             takes_value: true
         - private-key:
             about: Input of eth-tx function
+            required: true
             long: private-key
+            takes_value: true
+  - parse:
+      about: Pasre or analyze hex-string
+      args:
+        - type:
+            about: Destionation address of the transaction
+            required: true
+            index: 1
+            takes_value: true
+            possible_values: [ eth-tx, eth-block, btc-tx, btc-block ]
+        - hex:
+            about: Nonce of the sender account
+            required: true
+            index: 2
             takes_value: true
 

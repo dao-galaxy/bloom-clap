@@ -1,13 +1,24 @@
 #[macro_use]
 extern crate hex_literal;
-
 #[macro_use]
 extern crate serde_derive;
 
 mod subcmd;
 
-use clap::{App, load_yaml, ArgMatches, Arg};
-use subcmd::{keccak_processor, hash_processor, sha3_processor, eth_tx_processor};
+use clap::{
+    App,
+    load_yaml,
+    ArgMatches,
+    Arg
+};
+
+use subcmd::{
+    keccak_processor,
+    hash_processor,
+    sha3_processor,
+    eth_tx_processor,
+    address_processor
+};
 
 fn main() {
     // The YAML file is found relative to the current file, similar to how modules are found
@@ -21,6 +32,7 @@ fn main() {
         "keccak256" => keccak_processor(opt_match),
         "sha3" => sha3_processor(opt_match),
         "eth-tx" => eth_tx_processor(opt_match),
+        "address" => address_processor(opt_match),
         // "parse" => parse_processor(opt_match),
         _ => {}
     }
@@ -42,6 +54,14 @@ f8ad830dd98a8502540be40083026739947c2af3a86b4bf47e6ee63ad9bde7b3b0ba7f95da80b844
 
 https://www.ethereumdecoder.com/
 ./target/debug/bloom-clap eth-tx --nonce 0 --to 26d1ec50b4e62c1d1a40d16e7cacc6a6580757d5 --value 0 --gas-price 10000 --gas 21240 --data 7f7465737432000000000000000000000000000000000000000000000000000000600057 --private-key 2a3526dd05ad2ebba87673f711ef8c336115254ef8fcd38c4d8166db9a8120e4 --chain-id 1
+
+./target/debug/bloom-clap parse eth-tx 9988fe
+
+./target/debug/bloom-clap address eth --public xx
+./target/debug/bloom-clap address eth --sender alice --nonce 123
+./target/debug/bloom-clap address eth --sender alice --code-hash 7890
+./target/debug/bloom-clap address eth --sender alice --code-hash 7890 --salt 6655
+
 
 */
 

@@ -1,16 +1,14 @@
 
-
-
-
 mod keccak_cmd;
 mod sha3_cmd;
 mod eth_tx_cmd;
+mod address_cmd;
 
-pub use keccak_cmd::{keccak_processor};
-pub use sha3_cmd::{sha3_processor};
-pub use eth_tx_cmd::{eth_tx_processor};
+pub use keccak_cmd::keccak_processor;
+pub use sha3_cmd::sha3_processor;
+pub use eth_tx_cmd::eth_tx_processor;
 pub use eth_tx_cmd::RawTransaction;
-
+pub use address_cmd::address_processor;
 pub use clap::ArgMatches;
 
 pub fn hash_processor(opt_match : Option<&ArgMatches>) {

@@ -92,4 +92,47 @@ subcommands:
             required: true
             index: 2
             takes_value: true
+  - address:
+      about: Generates ethereum transaction
+      args:
+        - type:
+            about: Destionation address of the transaction
+            required: true
+            index: 1
+            takes_value: true
+            possible_values: [eth, btc]
+        - public:
+            about: Destionation address of the transaction
+            long: public
+            takes_value: true
+        - sender:
+            about: Destionation address of the transaction
+            long: sender
+            takes_value: true
+            conflicts_with:
+              - public
+        - nonce:
+            about: Nonce of the sender account
+            long: nonce
+            takes_value: true
+            requires:
+              - sender
+        - code-hash:
+            about: Input of eth-tx function
+            long: code-hash
+            takes_value: true
+            conflicts_with:
+              - nonce
+            requires:
+              - sender
+        - salt:
+            about: Input of eth-tx function
+            long: salt
+            takes_value: true
+            requires:
+              - sender
+              - code-hash
+            conflicts_with:
+              - nonce
+
 

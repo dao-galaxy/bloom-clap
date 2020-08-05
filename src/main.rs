@@ -66,6 +66,7 @@ output: 26d1ec50b4e62c1d1a40d16e7cacc6a6580757d5
 
 ./target/debug/bloom-clap address eth --sender 0f572e5295c57f15886f9b263e2f6d2d6c7b5ec6 --code-hash c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470 --salt c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
 
+./target/debug/bloom-clap address eth --checksum 0f572e5295c57f15886f9b263e2f6d2d6c7b5ec6
 
 */
 

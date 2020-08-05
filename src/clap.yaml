@@ -134,5 +134,12 @@ subcommands:
               - code-hash
             conflicts_with:
               - nonce
+        - checksum:
+            about: Checksum of address
+            long: checksum
+            takes_value: true
+            conflicts_with:
+              - public
+              - sender
 
 

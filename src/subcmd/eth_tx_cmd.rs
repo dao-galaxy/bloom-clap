@@ -2,8 +2,6 @@
 use clap::ArgMatches;
 use hex::encode;
 use primitive_types::{H160, H256, U256};
-use sha3::{Digest, Sha3_256};
-
 use num_traits::int;
 use rlp::RlpStream;
 use secp256k1::{key::SecretKey, Message, Secp256k1};

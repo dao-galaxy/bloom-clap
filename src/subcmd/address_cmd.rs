@@ -1,13 +1,13 @@
 use clap::ArgMatches;
 use hex::encode;
-use primitive_types::{H160, H256};
+use primitive_types::{H160, H256, H512};
 use contract_address::{
     Address,
     U256,
     ContractAddress as CA
 };
 use std::str::FromStr;
-
+use parity_crypto::publickey::{Signature, Secret, Public, recover, public_to_address};
 pub fn address_processor(opt_match : Option<&ArgMatches>) {
     println!("##address##");
     if let Some(matches) = opt_match {
@@ -15,7 +15,9 @@ pub fn address_processor(opt_match : Option<&ArgMatches>) {
         match address_type {
             "eth" => {
                 if matches.occurrences_of("public") > 0 {
-                    // TODO public-key to address
+                    let pub_key : H512 = matches.value_of("public").unwrap().parse().unwrap();
+                    let address = public_to_address(&pub_key);
+                    println!("[public key] => address: {}", hex::encode(address));
                 } else {
                     let sender : H160 = matches.value_of("sender").unwrap().parse().unwrap();
                     let c_addr: CA;
@@ -42,6 +44,4 @@ pub fn address_processor(opt_match : Option<&ArgMatches>) {
     }
 
 }
-
-
 

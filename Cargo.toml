@@ -42,3 +42,5 @@ secp256k1 = {version = "0.17", features = ["recovery"] }
 num-traits = "0.2"
 
 contract-address = "0.4.0"
+parity-crypto = { version = "0.6.1", features = ["publickey"] }
+

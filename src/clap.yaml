@@ -18,27 +18,27 @@ args:
       takes_value: true
 subcommands:
   - hash:
-      about: Prints all hash functions
+      about: Prints all supported hash functions
   - keccak256:
-      about: Executes keccak256 function
+      about: Executes keccak256 hash function
       args:
         - hex:
-            about: Input of keccak256 function
+            about: Input of keccak256 hash function
             required: true
             index: 1
   - sha3:
-      about: Executes sha3 function
+      about: Executes sha3 hash function
       args:
         - hex:
-            about: Input of sha3 function
+            about: Input of sha3 hash function
             required: true
             index: 1
   - sha256:
-      about: Executes sha256 function
+      about: Executes sha256 hash function
       args:
         - hex:
             long: hex
-            about: Input of sha256 function
+            about: Input of sha256 hash function
             takes_value: true
   - eth-tx:
       about: Generates ethereum transaction
@@ -79,46 +79,46 @@ subcommands:
             long: private-key
             takes_value: true
   - parse:
-      about: Pasre or analyze hex-string
+      about: Pasres or analyzes hex-string of [transaction, block...]
       args:
         - type:
             about: Destionation address of the transaction
             required: true
             index: 1
             takes_value: true
-            possible_values: [ eth-tx, eth-block, btc-tx, btc-block ]
+            possible_values: [eth-tx, eth-block, btc-tx, btc-block]
         - hex:
             about: Nonce of the sender account
             required: true
             index: 2
             takes_value: true
   - address:
-      about: Generates ethereum transaction
+      about: Generates blockchain address
       args:
         - type:
-            about: Destionation address of the transaction
+            about: Address type [eth, btc...]
             required: true
             index: 1
             takes_value: true
             possible_values: [eth, btc]
         - public:
-            about: Destionation address of the transaction
+            about: Public key for generating address
             long: public
             takes_value: true
         - sender:
-            about: Destionation address of the transaction
+            about: Sender address for generating contract address
             long: sender
             takes_value: true
             conflicts_with:
               - public
         - nonce:
-            about: Nonce of the sender account
+            about: Nonce for generating contract address
             long: nonce
             takes_value: true
             requires:
               - sender
         - code-hash:
-            about: Input of eth-tx function
+            about: Code hash for generating contract address (Create2)
             long: code-hash
             takes_value: true
             conflicts_with:
@@ -126,7 +126,7 @@ subcommands:
             requires:
               - sender
         - salt:
-            about: Input of eth-tx function
+            about: Salt for generating contract address (Create2)
             long: salt
             takes_value: true
             requires:

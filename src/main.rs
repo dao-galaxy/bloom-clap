@@ -57,10 +57,14 @@ https://www.ethereumdecoder.com/
 
 ./target/debug/bloom-clap parse eth-tx 9988fe
 
-./target/debug/bloom-clap address eth --public xx
-./target/debug/bloom-clap address eth --sender alice --nonce 123
-./target/debug/bloom-clap address eth --sender alice --code-hash 7890
-./target/debug/bloom-clap address eth --sender alice --code-hash 7890 --salt 6655
+./target/debug/bloom-clap address eth --public 689268c0ff57a20cd299fa60d3fb374862aff565b20b5f1767906a99e6e09f3ff04ca2b2a5cd22f62941db103c0356df1a8ed20ce322cab2483db67685afd124
+output: 26d1ec50b4e62c1d1a40d16e7cacc6a6580757d5
+
+./target/debug/bloom-clap address eth --sender 0f572e5295c57f15886f9b263e2f6d2d6c7b5ec6 --nonce 123
+
+./target/debug/bloom-clap address eth --sender 0f572e5295c57f15886f9b263e2f6d2d6c7b5ec6 --code-hash c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
+
+./target/debug/bloom-clap address eth --sender 0f572e5295c57f15886f9b263e2f6d2d6c7b5ec6 --code-hash c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470 --salt c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
 
 
 */

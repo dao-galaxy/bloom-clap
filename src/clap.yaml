@@ -135,7 +135,7 @@ subcommands:
             conflicts_with:
               - nonce
         - checksum:
-            about: Checksum of address
+            about: EIP-55 checksum of an ethereum address
             long: checksum
             takes_value: true
             conflicts_with:

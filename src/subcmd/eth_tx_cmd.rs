@@ -6,6 +6,7 @@ use num_traits::int;
 use rlp::RlpStream;
 use secp256k1::{key::SecretKey, Message, Secp256k1};
 use tiny_keccak::{Keccak, Hasher};
+use serde_derive::{Deserialize, Serialize};
 
 pub fn eth_tx_processor(opt_match : Option<&ArgMatches>) {
     println!("##eth-tx##");
